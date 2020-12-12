@@ -57,8 +57,7 @@ a:hover {
 .card-see-more {
   position: absolute;
   text-align: right;
-  bottom: 0;
-  right: 20px;
+  bottom: 20px;
   width: 100%;
 }
 

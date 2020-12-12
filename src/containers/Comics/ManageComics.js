@@ -44,7 +44,7 @@ const ManageComics = () => {
         setComics({
           ...comics,
           newComics: comics.newComics.filter(i => i.id !== comic.id),
-          reviewCommics: [...comics.reviewCommics, comic]
+          reviewCommics: [comic, ...comics.reviewCommics]
         })
         return comic
       case 'REVIEW':
@@ -52,14 +52,37 @@ const ManageComics = () => {
         setComics({
           ...comics,
           reviewCommics: comics.reviewCommics.filter(i => i.id !== comic.id),
-          approvedComics: [...comics.approvedComics, comic]
+          approvedComics: [comic, ...comics.approvedComics]
         })
         return comic
       case 'APPROVED':
-        comic.allowClick = true
+        comic.allowClick = false
         return comic
       default:
         comic.state = ''
+        return comic
+    }
+  }
+
+  const handleSelectBack = comic => {
+    switch (comic.state) {
+      case 'REVIEW':
+        comic.state = 'NEW'
+        setComics({
+          ...comics,
+          reviewCommics: comics.reviewCommics.filter(i => i.id !== comic.id),
+          newComics: [comic, ...comics.newComics]
+        })
+        return comic
+      case 'APPROVED':
+        comic.state = 'REVIEW'
+        setComics({
+          ...comics,
+          approvedComics: comics.approvedComics.filter(i => i.id !== comic.id),
+          reviewCommics: [comic, ...comics.reviewCommics]
+        })
+        return comic
+      default:
         return comic
     }
   }
@@ -133,8 +156,8 @@ const ManageComics = () => {
           </Form>
         </Modal>
         <ColumnCard comics={assignState(comics.newComics, 'NEW')} onSelect={handleSelect} title="Nuevos comics" />
-        <ColumnCard comics={assignState(comics.reviewCommics, 'REVIEW')} onSelect={handleSelect} title="En revisión" />
-        <ColumnCard comics={assignState(comics.approvedComics, 'APPROVED')} onSelect={handleSelect} title="Aprovados" />
+        <ColumnCard comics={assignState(comics.reviewCommics, 'REVIEW')} onSelectBack={handleSelectBack} onSelect={handleSelect} title="En revisión" />
+        <ColumnCard comics={assignState(comics.approvedComics, 'APPROVED')} onSelectBack={handleSelectBack} title="Aprobados" />
       </div>
     </>
 

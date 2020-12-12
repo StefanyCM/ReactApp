@@ -1,8 +1,8 @@
-import { Button } from "antd";
+import { Button, Row } from "antd";
 import React from "react";
 import "./ComicCard.css";
 
-const ComicCard = ({ comic, onSelect, state = 'NEW', allowClick = false }) => {
+const ComicCard = ({ comic, onSelect, onSelectBack, state = 'NEW', allowClick = false }) => {
   const { id, title, description, thumbnail } = comic;
   const onClick = () => {
     if (onSelect) {
@@ -10,19 +10,26 @@ const ComicCard = ({ comic, onSelect, state = 'NEW', allowClick = false }) => {
     }
   };
 
+  const onClickBack = () => {
+    if (onSelectBack) {
+      console.log('entreeeeee')
+      onSelectBack(comic);
+    }
+  };
+
   let message = 'A revisar'
   let buttonType = 'primary'
-  switch (state) {
+  switch (comic.state) {
     case 'NEW':
       buttonType = 'primary'
-      message = 'Pasar a revisión'
+      message = 'Revisión'
       break
     case 'REVIEW':
-      buttonType = 'text'
-      message = 'APROBAR'
+      buttonType = 'primary'
+      message = 'Aprobar'
       break
     case 'APPROVED':
-      buttonType = 'text'
+      buttonType = 'default'
       message = 'Completado'
       break
     default:
@@ -53,12 +60,16 @@ const ComicCard = ({ comic, onSelect, state = 'NEW', allowClick = false }) => {
               : description.slice(0, 250) + "..."}
           </p>
         </div>
-        <div className="card-see-more">
-          <p>
-            {allowClick && (
+        <div className='card-see-more'>
+          <Row style={{ justifyContent: 'center' }}>
+            {onSelect && (
               <Button type={buttonType} onClick={onClick} >{message}</Button>
             )}
-          </p>
+            {onSelectBack && (
+              <Button type={'danger'} onClick={onClickBack} >{'Devolver'}</Button>
+            )}
+          </Row>
+
         </div>
       </div>
     </div>
