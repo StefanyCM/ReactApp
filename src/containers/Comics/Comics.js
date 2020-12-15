@@ -3,13 +3,23 @@ import { ComicCard } from "../../components";
 import { Spin } from "antd";
 import { Api } from "../../Common/api";
 import "./Comics.css";
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import * as ComicsTypes from '../../services/comics/comicTypes'
 
 const Comics = () => {
-  const [comics, setComics] = useState([]);
+  const [comicss, setComics] = useState([]);
   const [selected, setSelected] = useState({});
 
+  const { comics } = useSelector( state => state.comics);
+
+  const dispatch = useDispatch();
+
+  console.log('State: ', comics);
 
   useEffect(() => {
+    dispatch({
+      type: ComicsTypes.GET_COMICS,
+    });
     Api()
       .then((res) => setComics(res.data.results))
       .catch((err) => {

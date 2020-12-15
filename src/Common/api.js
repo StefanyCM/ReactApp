@@ -13,6 +13,5 @@ export const Api = () =>
       })
   )
     .then((resp) => resp.json())
-    .catch((err) => {
-      err.json();
-    });
+    .then(json => json)
+    .catch(err => console.log('----> ', err));
