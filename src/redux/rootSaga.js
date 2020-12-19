@@ -4,5 +4,5 @@ import ComicsSaga from '../services/comics/comicSaga'
 export default function* rootSaga() {
     yield all ([
         fork(ComicsSaga)
-    ]);
+    ])
 }

@@ -5,7 +5,7 @@ import "./ComicCard.css";
 const ComicCard = ({ comic, onSelect, onSelectBack, state = 'NEW', allowClick = false }) => {
   const { id, title, description, thumbnail } = comic;
   const onClick = () => {
-    if (onSelect) {
+    if (onSelect) { 
       onSelect(comic);
     }
   };
